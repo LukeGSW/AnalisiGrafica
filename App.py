@@ -585,19 +585,13 @@ class Visualizer:
 # Sidebar con parametri
 st.sidebar.header("⚙️ Configurazione")
 
-# Caricamento API Key
-api_key = st.sidebar.text_input(
-    "EODHD API Key",
-    type="password",
-    help="Inserisci la tua API Key EODHD (configurabile anche nei secrets)"
-)
-
-# Se non inserita manualmente, prova a caricarla dai secrets
-if not api_key:
-    try:
-        api_key = st.secrets["EODHD_API_KEY"]
-    except:
-        st.sidebar.warning("⚠️ Inserisci l'API Key EODHD")
+# Caricamento API Key dai secrets
+try:
+    api_key = st.secrets["EODHD_API_KEY"]
+except:
+    st.sidebar.error("❌ API Key EODHD non configurata nei secrets")
+    st.sidebar.info("Configura EODHD_API_KEY in Settings > Secrets")
+    api_key = None
 
 # Input Ticker
 ticker = st.sidebar.text_input(
